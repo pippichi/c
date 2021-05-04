@@ -2,28 +2,74 @@
 #include "game.h"
 
 void InitContact(struct Contact* ps) {
-	memset(ps->data, 0, sizeof(ps->data));
+	// 使用动态内存分配改进代码之后将下面的代码注释
+	// memset(ps->data, 0, sizeof(ps->data));
+	// ps->size = 0;
+	// 使用动态内存分配改进代码之后增加下面的代码
+	// 我们希望初始化的时候通讯录能放下三个人的信息
+	ps->data = (struct PeoInfo*)malloc(3 * sizeof(struct PeoInfo));
+	if (ps->data == NULL) {
+		return;
+	}
 	ps->size = 0;
+	ps->capacity = DEFAULT_SZ;
+}
+
+// 使用动态内存分配改进代码之后增加下面的代码
+static void CheckCapacity(struct Contact* ps) {
+	if (ps->size == ps->capacity) {
+		// 增容
+		struct PeoInfo* ptr = realloc(ps->data, (ps->capacity + 2) * sizeof(struct PeoInfo));
+		if (ptr != NULL) {
+			ps->data = ptr;
+			ps->capacity += 2;
+			printf("增容成功！\n");
+		}
+		else {
+			printf("增容失败！\n");
+		}
+	}
 }
 
 void AddContact(struct Contact* ps) {
-	if (ps->size == MAX) {
-		printf("通讯录已满，无法添加！\n");
-	}
-	else {
-		printf("请输入名字：>");
-		scanf("%s", ps->data[ps->size].name);
-		printf("请输入年龄：>");
-		scanf("%d", &(ps->data[ps->size].age));
-		printf("请输入性别：>");
-		scanf("%s", ps->data[ps->size].sex);
-		printf("请输入电话：>");
-		scanf("%s", ps->data[ps->size].tele);
-		printf("请输入地址：>");
-		scanf("%s", ps->data[ps->size].addr);
-		ps->size++;
-		printf("添加成功！\n");
-	}
+	// 使用动态内存分配改进代码之后将下面的代码注释
+	// if (ps->size == MAX) {
+	// 	 printf("通讯录已满，无法添加！\n");
+	// }
+	// else {
+	// 	printf("请输入名字：>");
+	// 	scanf("%s", ps->data[ps->size].name);
+	// 	printf("请输入年龄：>");
+	// 	scanf("%d", &(ps->data[ps->size].age));
+	// 	printf("请输入性别：>");
+	// 	scanf("%s", ps->data[ps->size].sex);
+	// 	printf("请输入电话：>");
+	// 	scanf("%s", ps->data[ps->size].tele);
+	// 	printf("请输入地址：>");
+	// 	scanf("%s", ps->data[ps->size].addr);
+	// 	ps->size++;
+	// 	printf("添加成功！\n");
+	// }
+
+	// 使用动态内存分配改进代码之后增加下面的代码
+	// 检测当前通讯录的容量
+	// 1.如果满了，就增加空间
+	// 2.如果不满，啥事都不干
+	CheckCapacity(ps);
+	// 使用动态内存分配改进代码之后增加下面的代码
+	// 增加数据
+	printf("请输入名字：>");
+	scanf("%s", ps->data[ps->size].name);
+	printf("请输入年龄：>");
+	scanf("%d", &(ps->data[ps->size].age));
+	printf("请输入性别：>");
+	scanf("%s", ps->data[ps->size].sex);
+	printf("请输入电话：>");
+	scanf("%s", ps->data[ps->size].tele);
+	printf("请输入地址：>");
+	scanf("%s", ps->data[ps->size].addr);
+	ps->size++;
+	printf("添加成功！\n");
 }
 
 void ShowContact(const struct Contact* ps) {
@@ -129,4 +175,10 @@ static int cmp(const void* a, const void* b) {
 }
 void SortContact(struct Contact* ps) {
 	qsort(ps->data, ps->size, sizeof(struct PeoInfo), cmp);
+}
+
+// 使用动态内存分配改进代码之后增加下面的代码
+void DestroyContact(struct Contact* ps) {
+	free(ps->data);
+	ps->data = NULL;
 }

@@ -1,13 +1,17 @@
 #ifndef __GAME_H__
 #define __GAME_H__
-#define MAX 1000
+// 使用动态内存分配改进代码之后将下面的代码注释
+// #define MAX 1000
 #define MAX_NAME 20
 #define MAX_SEX 5
 #define MAX_TELE 12
 #define MAX_ADDR 30
+// 使用动态内存分配改进代码之后增加下面的代码
+#define DEFAULT_SZ 3
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 enum Option {
 	EXIT,
@@ -28,8 +32,12 @@ struct PeoInfo {
 
 // 通讯录类型
 struct Contact {
-	struct PeoInfo data[MAX];
+	// 使用动态内存分配改进代码之后将下面的代码注释
+	// struct PeoInfo data[MAX];
+	struct PeoInfo* data;
 	int size; // 记录当前已经有的元素的个数
+	// 使用动态内存分配改进代码之后增加下面的代码
+	int capacity; // 当前通讯录的最大容量，目的是用于判断什么时候该调整data数组的大小
 };
 
 //// 声明函数
@@ -47,5 +55,7 @@ void SearchContact(const struct Contact* ps);
 void ModifyContact(struct Contact* ps);
 // 排序通讯录内容
 void SortContact(struct Contact* ps);
-
+// 使用动态内存分配改进代码之后增加下面的代码
+// 释放动态开辟的内存
+void DestroyContact(struct Contact* ps);
 #endif

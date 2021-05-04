@@ -12,7 +12,10 @@ void menu() {
 int main() {
 	int input = 0;
 	// 创建通讯录
-	struct Contact con; // con就是通讯录，里面包含：一个能容纳1000个PeoInfo的数组和用于记录当前已有PeoInfo元素个数的size
+	// 使用动态内存分配改进代码之后将下面的代码注释
+	// struct Contact con; // con就是通讯录，里面包含：一个能容纳1000个PeoInfo的数组和用于记录当前已有PeoInfo元素个数的size
+	// 使用动态内存分配改进代码之后增加下面的代码
+	struct Contact con; // con就是通讯录，里面包含：data指针和用于记录当前已有PeoInfo元素个数的size和data指向数组的容量capacity
 	// 初始化通讯录
 	InitContact(&con);
 	do {
@@ -39,6 +42,9 @@ int main() {
 			SortContact(&con);
 			break;
 		case EXIT:
+			// 使用动态内存分配改进代码之后增加下面的代码
+			// 初始化的时候动态开辟了内存，那么这个时候就要释放这些动态开辟的内存
+			DestroyContact(&con);
 			printf("退出通讯录\n");
 			break;
 		default:
