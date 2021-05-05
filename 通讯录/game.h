@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 enum Option {
 	EXIT,
@@ -20,7 +21,9 @@ enum Option {
 	SEARCH,
 	MODIFY,
 	SHOW,
-	SORT
+	SORT,
+	// 使用文件操作改进代码之后增加下面的代码
+	SAVE
 };
 struct PeoInfo {
 	char name[MAX_NAME];
@@ -58,4 +61,10 @@ void SortContact(struct Contact* ps);
 // 使用动态内存分配改进代码之后增加下面的代码
 // 释放动态开辟的内存
 void DestroyContact(struct Contact* ps);
+// 使用文件操作改进代码之后增加下面的代码
+// 保存文件
+void SaveContact(struct Contact* ps);
+// 使用文件操作改进代码之后增加下面的代码
+// 加载文件中的信息到通讯录
+void LoadContact(struct Contact* ps);
 #endif

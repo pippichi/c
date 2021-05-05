@@ -5,7 +5,7 @@ void menu() {
 	printf("********* 1.add           2.del    ************\n");
 	printf("********* 3.search        4.modify ************\n");
 	printf("********* 5.show          6.sort   *************\n");
-	printf("********* 0.exit                   *************\n");
+	printf("********* 7.save          0.exit   *************\n");
 	printf("************************************************\n");
 }
 
@@ -45,7 +45,13 @@ int main() {
 			// 使用动态内存分配改进代码之后增加下面的代码
 			// 初始化的时候动态开辟了内存，那么这个时候就要释放这些动态开辟的内存
 			DestroyContact(&con);
+			// 使用文件操作改进代码之后增加下面的代码
+			SaveContact(&con);
 			printf("退出通讯录\n");
+			break;
+		// 使用文件操作改进代码之后增加下面的代码
+		case SAVE:
+			SaveContact(&con);
 			break;
 		default:
 			printf("选择错误\n");

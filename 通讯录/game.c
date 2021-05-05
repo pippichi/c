@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "game.h"
 
+// 使用文件操作改进代码之后增加下面的代码
+void LoadContact(struct Contact* ps);
 void InitContact(struct Contact* ps) {
 	// 使用动态内存分配改进代码之后将下面的代码注释
 	// memset(ps->data, 0, sizeof(ps->data));
@@ -13,6 +15,29 @@ void InitContact(struct Contact* ps) {
 	}
 	ps->size = 0;
 	ps->capacity = DEFAULT_SZ;
+	// 使用文件操作改进代码之后增加下面的代码
+	// 把文件中已经存放的通讯录中的信息加载到通讯录中
+	LoadContact(ps);
+}
+
+// 使用文件操作改进代码之后增加下面的代码
+// 声明函数
+static void CheckCapacity(struct Contact* ps);
+void LoadContact(struct Contact* ps) {
+	struct PeoInfo temp = { 0 };
+	FILE* pfRead = fopen("contact.dat", "rb");
+	if (pfRead == NULL) {
+		printf("LoadContact::%s\n", strerror(errno));
+		return;
+	}
+	// 读取文件，存放到通讯录中
+	while (fread(&temp, sizeof(struct PeoInfo), 1, pfRead)) {
+		CheckCapacity(ps);
+		ps->data[ps->size] = temp;
+		ps->size++;
+	}
+	fclose(pfRead);
+	pfRead = NULL;
 }
 
 // 使用动态内存分配改进代码之后增加下面的代码
@@ -181,4 +206,20 @@ void SortContact(struct Contact* ps) {
 void DestroyContact(struct Contact* ps) {
 	free(ps->data);
 	ps->data = NULL;
+}
+
+// 使用文件操作改进代码之后增加下面的代码
+void SaveContact(struct Contact* ps) {
+	FILE* pfWrite = fopen("contact.dat", "wb");
+	if (pfWrite == NULL) {
+		printf("SaveContact::%s\n", strerror(errno));
+		return;
+	}
+	// 写通讯录中数据到文件中
+	int i = 0;
+	for (i = 0; i < ps->size; i++) {
+		fwrite(&(ps->data[i]), sizeof(struct PeoInfo), 1, pfWrite);
+	}
+	fclose(pfWrite);
+	pfWrite = NULL;
 }
