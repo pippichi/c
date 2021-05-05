@@ -1,3 +1,4 @@
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "game.h"
 void menu() {
@@ -42,14 +43,14 @@ int main() {
 			SortContact(&con);
 			break;
 		case EXIT:
+			// 使用文件操作改进代码之后增加下面的代码
+			SaveContact(&con);
 			// 使用动态内存分配改进代码之后增加下面的代码
 			// 初始化的时候动态开辟了内存，那么这个时候就要释放这些动态开辟的内存
 			DestroyContact(&con);
-			// 使用文件操作改进代码之后增加下面的代码
-			SaveContact(&con);
 			printf("退出通讯录\n");
 			break;
-		// 使用文件操作改进代码之后增加下面的代码
+			// 使用文件操作改进代码之后增加下面的代码
 		case SAVE:
 			SaveContact(&con);
 			break;

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __GAME_H__
 #define __GAME_H__
 // 使用动态内存分配改进代码之后将下面的代码注释

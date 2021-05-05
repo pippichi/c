@@ -1,3 +1,4 @@
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "game.h"
 
@@ -107,11 +108,11 @@ void ShowContact(const struct Contact* ps) {
 		printf("%-20s\t%-4s\t%-5s\t%-12s\t%-20s\n", "名字", "年龄", "性别", "电话", "地址");
 		// 数据
 		for (i = 0; i < ps->size; i++) {
-			printf("%-20s\t%-4d\t%-5s\t%-12s\t%-20s\n", 
-				ps->data[i].name, 
-				ps->data[i].age, 
-				ps->data[i].sex, 
-				ps->data[i].tele, 
+			printf("%-20s\t%-4d\t%-5s\t%-12s\t%-20s\n",
+				ps->data[i].name,
+				ps->data[i].age,
+				ps->data[i].sex,
+				ps->data[i].tele,
 				ps->data[i].addr);
 		}
 	}
